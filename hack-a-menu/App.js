@@ -1,3 +1,45 @@
+import React from 'react';
+import { Button, Image, TouchableOpacity, View } from 'react-native';
+import Expo from 'expo';
+
+export default class TextImageGenerator extends React.Component {
+  state = {
+    image: null,
+  };
+
+  render() {
+    let { image } = this.state;
+
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Button
+          title="Take a picture"
+          onPress={this._pickImage}
+        />
+        {image &&
+          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+      </View>
+    );
+  }
+
+  _pickImage = async () => {
+    let result = await Expo.ImagePicker.launchCameraAsync({
+      allowsEditing: true,
+    });
+
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
+}
+
+
+
+
+
 /*import React, {Component} from 'react';
 import {AppRegistry,Text,View} from 'react-native';
 
@@ -11,6 +53,7 @@ export default class MyApp extends Component{
   }
 }
 AppRegistry.registerComponent('MyApp',()=>MyApp); */
+
 /*import Expo from 'expo';
 import React, {Component} from 'react';
 import {
@@ -196,40 +239,3 @@ const styles = StyleSheet.create({
 });
 */
 
-import React from 'react';
-import { Button, Image, TouchableOpacity, View } from 'react-native';
-import Expo from 'expo';
-
-export default class TextImageGenerator extends React.Component {
-  state = {
-    image: null,
-  };
-
-  render() {
-    let { image } = this.state;
-
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Button
-          title="Take a picture"
-          onPress={this._pickImage}
-        />
-        {image &&
-          <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
-      </View>
-    );
-  }
-
-  _pickImage = async () => {
-    let result = await Expo.ImagePicker.launchCameraAsync({
-      allowsEditing: true,
-    });
-
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
-  };
-}
